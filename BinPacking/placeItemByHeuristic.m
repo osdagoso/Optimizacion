@@ -1,12 +1,9 @@
 function [bin, items] = placeItemByHeuristic(id, bin, maxCapacity, items)
     itFits = false;
-    %disp(id);
-    %disp(items(1));
-    %disp("------------");
     switch id
         %First fit
         case 1 
-            for i  = 1: size(bin,2)
+            for i  = 1 : size(bin, 2)
                 x = sum(bin{i});
                 if maxCapacity - x >= items(1)
                     itFits = true;
@@ -18,7 +15,7 @@ function [bin, items] = placeItemByHeuristic(id, bin, maxCapacity, items)
         case 2
             index = -1;
             best = intmax;
-            for i  = 1: size(bin,2)
+            for i  = 1 : size(bin, 2)
                 x = sum(bin{i});
                 if maxCapacity - x >= items(1)
                     if maxCapacity - x - items(1) < best 
@@ -36,7 +33,7 @@ function [bin, items] = placeItemByHeuristic(id, bin, maxCapacity, items)
         case 3
             index = -1;
             worst = -1;
-            for i  = 1: size(bin,2)
+            for i  = 1 : size(bin, 2)
                 x = sum(bin{i});
                 if maxCapacity - x >= items(1)
                     if maxCapacity - x - items(1) > worst 
@@ -55,19 +52,15 @@ function [bin, items] = placeItemByHeuristic(id, bin, maxCapacity, items)
            worst = -1;
            indexNTB = -1;
            notThatBad = -1;
-           for i  = 1: size(bin,2)
+           for i  = 1 : size(bin, 2)
                x = sum(bin{i});
                if maxCapacity - x >= items(1)
-                   if maxCapacity - x - items(1) > worst 
+                   if maxCapacity - x - items(1) > worst
+                       notThatBad = worst;
+                       indexNTB = index;
                        worst = maxCapacity - x - items(1);
                        index = i;
-                   end
-                end
-           end
-           for i  = 1: size(bin,2)
-               x = sum(bin{i});
-               if maxCapacity - x >= items(1)
-                   if maxCapacity - x - items(1) > notThatBad && i  ~= index
+                   elseif maxCapacity - x - items(1) > notThatBad
                        notThatBad = maxCapacity - x - items(1);
                        indexNTB = i;
                    end
@@ -80,11 +73,10 @@ function [bin, items] = placeItemByHeuristic(id, bin, maxCapacity, items)
            if index ~= -1 && indexNTB == -1 
                bin{index} = [bin{index} items(1)];
                itFits = true;
-           end  
-         
+           end 
     end
     if ~itFits
-        bin{size(bin,2)+1} = [items(1)];
+        bin{size(bin, 2) + 1} = [items(1)];
     end
     items(1) = [];
 end
